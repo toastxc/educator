@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  fullstack:
+    build:
+     dockerfile: Dockerfile
+    volumes:
+      - ./db.jsonc:/usr/local/app/db.jsonc
+    ports:
+    - "8085:8080"
