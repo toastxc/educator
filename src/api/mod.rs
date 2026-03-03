@@ -1,9 +1,13 @@
-use std::sync::{Arc, RwLock};
-use lazy_static::lazy_static;
-use serde::Deserialize;
-use serde::Serialize;
+#[cfg(feature = "server")]
 use crate::api::quiz::Quiz;
-
+#[cfg(feature = "server")]
+use lazy_static::lazy_static;
+#[cfg(feature = "server")]
+use serde::Deserialize;
+#[cfg(feature = "server")]
+use serde::Serialize;
+#[cfg(feature = "server")]
+use std::sync::{Arc, RwLock};
 
 pub mod quiz;
 
@@ -21,10 +25,3 @@ lazy_static! {
 struct Database {
     pub quizzes: Vec<Quiz>,
 }
-
-
-
-
-
-
-

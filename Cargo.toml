@@ -7,11 +7,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dioxus = { version = "0.7.3", features = ["router", "fullstack", ] }
-dioxus-html = { version = "0.7.3", features = ["serialize"] }
+dioxus = { version = "0.7.3", features = ["router", "fullstack",  ] }
+dioxus-html = { version = "0.7.3", features = ["serialize"],  default-features = false}
 lazy_static = "1.5.0"
-serde = { version = "1.0.228", features = ["derive"] }
-serde-aux = "4.7.0"
+serde = { version = "1.0.228", features = ["derive"], default-features = false }
 serde_json = "1.0.149"
 
 [features]
@@ -24,3 +23,11 @@ desktop = ["dioxus/desktop"]
 mobile = ["dioxus/mobile"]
 # The feature that are only required for the server = ["dioxus/server"] build target should be optional and only enabled in the server = ["dioxus/server"] feature
 server = ["dioxus/server"]
+
+[profile.release]
+opt-level = "z"
+debug = false
+lto = true
+codegen-units = 1
+panic = "abort"
+incremental = false

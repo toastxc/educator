@@ -2,9 +2,6 @@
 // need dioxus
 use dioxus::prelude::*;
 
-
-
-
 mod api;
 
 /// Define a components module that contains all shared components for our app.
@@ -12,8 +9,7 @@ mod components;
 /// Define a views module that contains the UI for all Layouts and Routes for our app.
 mod views;
 
-
-use views::{Quiz, Home, Navbar};
+use views::{Home, Navbar, Quiz};
 /// The Route enum is used to define the structure of internal routes in our app. All route enums need to derive
 /// the [`Routable`] trait, which provides the necessary methods for the router to work.
 /// 

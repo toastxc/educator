@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 pub struct QuestionForm {
     answer: String,
 }
-const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
+// const BLOG_CSS: Asset = asset!("/assets/styling/blog.css");
 
 /// The Blog page component that will be rendered when the current route is `[Route::Blog]`
 ///
@@ -39,14 +39,14 @@ pub fn Quiz(id: i32, quest: i32) -> Element {
     let mut response = use_signal(|| None);
     let answers = quiz.questions[quest as usize].answers.clone().into_iter().enumerate().map(|(index, answer)| {
        rsx!{
-        div { class:"",
+        div { class: "",
             label {
                 class: "has-checked:bg-indigo-50  flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-blue-600 has-checked:ring-1 has-checked:ring-blue-600",
                 r#for: "{index}",
                 p { class: "text-gray-700", "{answer}" }
 
                 input {
-                       required: true,
+                    required: true,
                     checked: index == 0,
                     class: "",
                     id: "{index}",
@@ -62,7 +62,7 @@ pub fn Quiz(id: i32, quest: i32) -> Element {
 
     if done() {
         return rsx! {
-            QuizEnd{score: score(), out_of: quiz.questions.len()}
+            QuizEnd { score: score(), out_of: quiz.questions.len() }
         };
     }
 
@@ -80,43 +80,40 @@ pub fn Quiz(id: i32, quest: i32) -> Element {
                     // Prevent the browser from navigating away.
                     evt.prevent_default();
 
-
                     match evt.parsed_values::<QuestionForm>() {
-                        Ok(QuestionForm {answer}) => {
-                           if answer == q2.correct.to_string() {
+                        Ok(QuestionForm { answer }) => {
+                            if answer.parse::<i64>().unwrap() == q2.correct {
                                 response.set(Some("correct!"));
-                                score.set(score()+1);
-                            }else {
+                                score.set(score() + 1);
+                            } else {
                                 response.set(Some("you LOSE, good DAY!"));
                             }
-
 
                         }
                         _ => {}
                     }
 
-
-
-
-
                 },
 
                 {response}
                 {answers}
-                 if response() == None {
-                button { class:"border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ", r#type: "submit", "check",  }
+                if response().is_none() {
+                    button {
+                        class: "border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
+                        r#type: "submit",
+                        "check"
                     }
+                }
             }
-            if response() == None {
+            if response().is_none() {
 
-            }else
-            if (quest as usize + 1) < quiz.questions.len() {
+            } else if (quest as usize + 1) < quiz.questions.len() {
 
                 Link {
                     onclick: move |_| {
-                      response.set(None);
+                        response.set(None);
                     },
-                   class:"border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
+                    class: "border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
                     id: "link_id",
                     new_tab: false,
                     rel: "link_rel",
@@ -129,17 +126,17 @@ pub fn Quiz(id: i32, quest: i32) -> Element {
                 }
             } else {
                 button {
-                     onclick: move |_| {
+                    onclick: move |_| {
                         done.set(true);
-                      warn!("{}", score());
+                        warn!("{}", score());
                     },
-                 class:"border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
+                    class: "border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
                     id: "link_id",
-                  {}
+                    {}
                     "Score"
                 }
             }
-
+        
         }
     }
 }
@@ -147,18 +144,18 @@ pub fn Quiz(id: i32, quest: i32) -> Element {
 #[component]
 pub fn QuizEnd(score: u32, out_of: usize) -> Element {
     rsx! {
-        h1{ class:" font-bold text-5xl text-blue-500 absolute top-1/3 left-1/3", "you got {score}/{out_of}!"}
-         Link {
+        h1 { class: " font-bold text-5xl text-blue-500 absolute top-1/3 left-1/3",
+            "you got {score}/{out_of}!"
+        }
+        Link {
 
-                   class:"border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
-                    id: "link_id",
-                    new_tab: false,
-                    rel: "link_rel",
-                    to: Route::Home {
-
-                    },
-                    {}
-                    "HOME"
-                }
+            class: "border-2 p-1 m-1 hover:bg-blue-400 hover:text-white ",
+            id: "link_id",
+            new_tab: false,
+            rel: "link_rel",
+            to: Route::Home {},
+            {}
+            "HOME"
+        }
     }
 }

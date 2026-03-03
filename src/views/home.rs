@@ -1,9 +1,6 @@
 use crate::api::quiz::quizzes_get;
-use crate::{
-    components::{Echo, Hero},
-    Route,
-};
-use dioxus::{html::div, prelude::*};
+use crate::Route;
+use dioxus::prelude::*;
 
 /// The Home page component that will be rendered when the current route is `[Route::Home]`
 #[component]
@@ -13,9 +10,7 @@ pub fn Home() -> Element {
         .clone()
     {
         Some(Ok(quizzes)) => quizzes,
-        Some(Err(error)) => {
-            return rsx! { "{error}" }
-        }
+        Some(Err(error)) => return rsx! { "{error}" },
         None => return rsx! { "loading..." },
     };
 
@@ -39,9 +34,7 @@ pub fn Home() -> Element {
     rsx! {
 
         h1 { class: "text-2xl", "quizes (select one)" }
-        div { class:"flex-col",
-               {quizzes_rendered}
-        }
+        div { class: "flex-col", {quizzes_rendered} }
 
     }
 }
