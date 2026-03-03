@@ -9,3 +9,5 @@ package-lock.json
 .idea
 Cargo.lock
 node_modules
+
+db.jsonc
